@@ -46,7 +46,7 @@ becomes
 make
 ```
 
-## Running tests
+## Running Tests
 ```
 make tests
 ```
