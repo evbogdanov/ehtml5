@@ -1,0 +1,10 @@
+{application, ehtml5, [
+  {description, "Simple Erlang Template Engine"},
+  {vsn, "0.1"},
+  {registered, []},
+  {applications, [
+    kernel,
+    stdlib
+  ]},
+  {env, []}
+]}.
