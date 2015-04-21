@@ -30,27 +30,27 @@
 render([Tag]) when is_atom(Tag) ->
   [tag_opening(Tag), tag_middle(Tag), tag_closing(Tag)];
 
-render([Tag, Content]) when is_atom(Tag) andalso is_binary(Content) ->
+render([Tag, Content]) when is_atom(Tag), is_binary(Content) ->
   [tag_opening(Tag), tag_middle(Tag), Content, tag_closing(Tag)];
 
-render([Tag, Attrs]) when is_atom(Tag) andalso is_map(Attrs) ->
+render([Tag, Attrs]) when is_atom(Tag), is_map(Attrs) ->
   [tag_opening(Tag), attrs(Attrs), tag_middle(Tag), tag_closing(Tag)];
 
-render([Tag, Attrs, Content]) when is_atom(Tag) andalso is_map(Attrs) andalso is_binary(Content) ->
+render([Tag, Attrs, Content]) when is_atom(Tag), is_map(Attrs), is_binary(Content) ->
   [tag_opening(Tag), attrs(Attrs), tag_middle(Tag), Content, tag_closing(Tag)];
 
 %%%=============================================================================
 %%% w/ children
 %%%=============================================================================
 
-render([Tag, Children]) when is_atom(Tag) andalso is_list(Children) ->
+render([Tag, Children]) when is_atom(Tag), is_list(Children) ->
   [tag_opening(Tag), tag_middle(Tag), render(Children), tag_closing(Tag)];
 
-render([Tag, Attrs, Children]) when is_atom(Tag) andalso is_map(Attrs) andalso is_list(Children) ->
+render([Tag, Attrs, Children]) when is_atom(Tag), is_map(Attrs), is_list(Children) ->
   [tag_opening(Tag), attrs(Attrs), tag_middle(Tag), render(Children), tag_closing(Tag)];
 
 render([FirstChild | OtherChildren]) ->
-  [render(FirstChild), render(OtherChildren)];
+  [render(FirstChild) | render(OtherChildren)];
 
 render([]) ->
   [].
