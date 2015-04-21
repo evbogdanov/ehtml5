@@ -57,6 +57,26 @@ out(_Arg) ->
 </erl>
 ```
 
+## Usage With Cowboy
+```erlang
+handle(Req, State) ->
+  EHTML5 = [html, [
+    [head,
+      [title, <<"EHTML5">>]
+    ],
+    [body,
+      [h1, <<"Hello, Cowboy">>]
+    ]
+  ]],
+  {ok, Req2} = cowboy_req:reply(
+    200,
+    [{<<"content-type">>, <<"text/html; charset=utf-8">>}],
+    ehtml5:render(EHTML5),
+    Req
+  ),
+  {ok, Req2, State}.
+```
+
 ## Compiling
 ```
 make
