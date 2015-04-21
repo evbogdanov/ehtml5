@@ -41,6 +41,22 @@ becomes
 </html>
 ```
 
+## Usage With Yaws
+```erlang
+<erl>
+out(_Arg) ->
+  EHTML5 = [html, [
+    [head,
+      [title, <<"EHTML5">>]
+    ],
+    [body,
+      [h1, <<"Hello, Yaws">>]
+    ]
+  ]],
+  {html, ehtml5:render(EHTML5)}.
+</erl>
+```
+
 ## Compiling
 ```
 make
