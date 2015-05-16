@@ -20,8 +20,16 @@ tag_with_content_test() ->
   EHTML5 = [p, <<"paragraph">>],
   ?assertEqual(<<"<p>paragraph</p>">>, ?TO_HTML(EHTML5)).
 
+tag_with_list_content_test() ->
+  EHTML5 = [p, "paragraph"],
+  ?assertEqual(<<"<p>paragraph</p>">>, ?TO_HTML(EHTML5)).
+
 tag_with_unicode_content_test() ->
   EHTML5 = [p, <<"параграф"/utf8>>],
+  ?assertEqual(<<"<p>параграф</p>"/utf8>>, ?TO_HTML(EHTML5)).
+
+tag_with_unicode_list_content_test() ->
+  EHTML5 = [p, "параграф"],
   ?assertEqual(<<"<p>параграф</p>"/utf8>>, ?TO_HTML(EHTML5)).
 
 self_closing_tag_with_content_test() -> % bad?
@@ -43,6 +51,10 @@ tag_with_attr_and_content_test() ->
 tag_with_two_attrs_and_content_test() ->
   EHTML5 = ['div', #{class => <<"CLASS">>, id => <<"ID">>}, <<"CONTENT">>],
   ?assertEqual(<<"<div class=\"CLASS\" id=\"ID\">CONTENT</div>">>, ?TO_HTML(EHTML5)).
+
+tag_with_attr_and_list_content_test() ->
+  EHTML5 = [a, #{href => "/test"}, "test"],
+  ?assertEqual(<<"<a href=\"/test\">test</a>">>, ?TO_HTML(EHTML5)).
 
 child_test() ->
   EHTML5 = ['div', [span]],
@@ -144,6 +156,24 @@ mega_test() ->
       ['div', #{id => <<"container">>, class => <<"col">>}, [
         [p, <<"What is EHTML5?">>],
         [p, <<"EHTML5 is a simple template engine inspired by Yaws's EHTML.">>]
+      ]]
+    ]]
+  ]],
+  Expected = <<"<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><title>EHTML5</title><script type=\"text/javascript\">if (foo) bar(1 + 2);</script></head><body><h1>EHTML5</h1><div class=\"col\" id=\"container\"><p>What is EHTML5?</p><p>EHTML5 is a simple template engine inspired by Yaws's EHTML.</p></div></body></html>">>,
+  ?assertEqual(Expected, ?TO_HTML(EHTML5)).
+
+mega_list_test() ->
+  EHTML5 = [html, #{lang => "en"}, [
+    [head, [
+      [meta, #{charset => "UTF-8"}],
+      [title, "EHTML5"],
+      [script, #{type => "text/javascript"}, "if (foo) bar(1 + 2);"]
+    ]],
+    [body, [
+      [h1, "EHTML5"],
+      ['div', #{id => "container", class => "col"}, [
+        [p, "What is EHTML5?"],
+        [p, "EHTML5 is a simple template engine inspired by Yaws's EHTML."]
       ]]
     ]]
   ]],

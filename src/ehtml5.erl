@@ -33,10 +33,18 @@ render([Tag]) when is_atom(Tag) ->
 render([Tag, Content]) when is_atom(Tag), is_binary(Content) ->
   [tag_opening(Tag), tag_middle(Tag), Content, tag_closing(Tag)];
 
+% list support
+render([Tag, Content = [Char | _]]) when is_atom(Tag), is_integer(Char) ->
+  [tag_opening(Tag), tag_middle(Tag), Content, tag_closing(Tag)];
+
 render([Tag, Attrs]) when is_atom(Tag), is_map(Attrs) ->
   [tag_opening(Tag), attrs(Attrs), tag_middle(Tag), tag_closing(Tag)];
 
 render([Tag, Attrs, Content]) when is_atom(Tag), is_map(Attrs), is_binary(Content) ->
+  [tag_opening(Tag), attrs(Attrs), tag_middle(Tag), Content, tag_closing(Tag)];
+
+% list support
+render([Tag, Attrs, Content = [Char | _]]) when is_atom(Tag), is_map(Attrs), is_integer(Char) ->
   [tag_opening(Tag), attrs(Attrs), tag_middle(Tag), Content, tag_closing(Tag)];
 
 %%%=============================================================================
