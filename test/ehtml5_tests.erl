@@ -144,6 +144,34 @@ nesting2_test() ->
   ]],
   ?assertEqual(<<"<ul><li>a</li><li>b</li><li><ul><li>c</li><li>d</li></ul></li><li>e</li></ul>">>, ?TO_HTML(EHTML5)).
 
+%%%=============================================================================
+%%% content
+%%%=============================================================================
+
+content_test() ->
+  EHTML5 = <<"test">>,
+  ?assertEqual(<<"test">>, ?TO_HTML(EHTML5)).
+
+list_content_test() ->
+  EHTML5 = "test",
+  ?assertEqual(<<"test">>, ?TO_HTML(EHTML5)).
+
+unicode_list_content_test() ->
+  EHTML5 = "тест",
+  ?assertEqual(<<"тест"/utf8>>, ?TO_HTML(EHTML5)).
+
+combo_content_test() ->
+  EHTML5 = [<<"a">>, "b", <<"в"/utf8>>],
+  ?assertEqual(<<"abв"/utf8>>, ?TO_HTML(EHTML5)).
+
+combo_content2_test() ->
+  EHTML5 = [footer, [<<"2015">>, " © footer"]],
+  ?assertEqual(<<"<footer>2015 © footer</footer>"/utf8>>, ?TO_HTML(EHTML5)).
+
+%%%=============================================================================
+%%% mega
+%%%=============================================================================
+
 mega_test() ->
   EHTML5 = [html, #{lang => <<"en">>}, [
     [head, [
