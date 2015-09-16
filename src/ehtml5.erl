@@ -103,4 +103,10 @@ tag_closing(Tag) ->
 %% -----------------------------------------------------------------------------
 
 attrs(Attrs) when is_map(Attrs) ->
-	[[" ", atom_to_list(A), "=\"", maps:get(A, Attrs), "\""] || A <- maps:keys(Attrs)].
+	[begin
+		Attr = case maps:get(A, Attrs) of
+			{A2} -> escaper:escape(A2);
+			A2   -> A2
+		end,
+		[" ", atom_to_list(A), "=\"", Attr, "\""] 
+	end || A <- maps:keys(Attrs)].

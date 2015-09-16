@@ -23,3 +23,13 @@ escape_tag_with_attr_and_bin_content_test() ->
 	EHTML5 = {p, #{id => <<"xss">>}, <<"\"><script>alert()</script>">>},
 	Expected = <<"<p id=\"xss\">&quot;&gt;&lt;script&gt;alert()&lt;/script&gt;</p>">>,
 	?assertEqual(Expected, ?TO_HTML(EHTML5)).
+
+escape_attr_test() ->
+	EHTML5 = [a, #{href => {"/search?k1=v1&k2=v2"}}, "search"],
+	Expected = <<"<a href=\"/search?k1=v1&amp;k2=v2\">search</a>">>,
+	?assertEqual(Expected, ?TO_HTML(EHTML5)).
+
+escape_bin_attr_test() ->
+	EHTML5 = [em, #{'data-name' => {<<"е`жик"/utf8>>}}],
+	Expected = <<"<em data-name=\"е&#x60;жик\"></em>"/utf8>>,
+	?assertEqual(Expected, ?TO_HTML(EHTML5)).
