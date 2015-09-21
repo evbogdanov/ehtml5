@@ -3,17 +3,19 @@
 Example:
 
 ```erlang
-[html, #{lang => <<"en">>}, [
+[html, #{lang => "en"}, [
   [head, [
-    [meta, #{charset => <<"UTF-8">>}],
-    [title, <<"EHTML5">>],
-    [script, #{type => <<"text/javascript">>}, <<"if (foo) bar(1 + 2);">>]
+    [meta, #{charset => "UTF-8"}],
+    [title, Title],
+    [script, #{type => "text/javascript"}, "if (foo) bar(1 + 2);"]
   ]],
   [body, [
-    [h1, <<"EHTML5">>],
-    ['div', #{id => <<"container">>, class => <<"col">>}, [
-      [p, <<"What is EHTML5?">>],
-      [p, <<"EHTML5 is a simple template engine inspired by Yaws's EHTML.">>]
+    [h1, "EHTML5"],
+    ['div', #{id => "container", class => "col"}, [
+      if YouLikeErlang -> [p, "Write HTML in Erlang!"];
+         true          -> [p, "Learn you some Erlang for great good!"]
+      end,
+      [p, "No, really, writing HTML in Erlang is so much fun" ++ " :-)"]
     ]]
   ]]
 ]].
@@ -26,7 +28,7 @@ becomes
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>EHTML5</title>
+    <title>Hello, EHTML5</title>
     <script type="text/javascript">
       if (foo) bar(1 + 2);
     </script>
@@ -34,11 +36,18 @@ becomes
   <body>
     <h1>EHTML5</h1>
     <div class="col" id="container">
-      <p>What is EHTML5?</p>
-      <p>EHTML5 is a simple template engine inspired by Yaws's EHTML.</p>
+      <p>Write HTML in Erlang!</p>
+      <p>No, really, writing HTML in Erlang is so much fun :-)</p>
     </div>
   </body>
 </html>
+```
+
+## Escape
+To escape `&`, `<`, `>`, `"`, `'`, and `` ` `` characters use `{tag, Content}` instead of `[tag, Content]`
+```erlang
+[p, "<script>alert()</script>"] % dangerous
+{p, "<script>alert()</script>"} % safe
 ```
 
 ## Usage With Yaws
